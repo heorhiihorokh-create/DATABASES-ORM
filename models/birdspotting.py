@@ -15,10 +15,17 @@ class BirdspottingBase(SQLModel):
 
 class Birdspotting(BirdspottingBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-
     bird_id: int = Field(foreign_key="bird.id")
     bird: Optional[Bird] = Relationship()
 
 
 class BirdspottingCreate(BirdspottingBase):
     bird_id: int
+
+
+class BirdspottingUpdate(SQLModel):
+    bird_id: Optional[int] = None
+    spotted_at: Optional[datetime] = None
+    location: Optional[str] = None
+    observer_name: Optional[str] = None
+    notes: Optional[str] = None

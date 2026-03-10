@@ -1,6 +1,8 @@
 from decimal import Decimal
 from typing import Optional
-from sqlmodel import Field, SQLModel
+
+from sqlmodel import Field, Relationship, SQLModel
+
 
 class SpeciesBase(SQLModel):
     name: str
@@ -9,8 +11,19 @@ class SpeciesBase(SQLModel):
     conservation_status: str
     wingspan_cm: Decimal
 
+
 class Species(SpeciesBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
+    birds: list["Bird"] = Relationship(back_populates="species")
+
 
 class SpeciesCreate(SpeciesBase):
     pass
+
+
+class SpeciesUpdate(SQLModel):
+    name: Optional[str] = None
+    scientific_name: Optional[str] = None
+    family: Optional[str] = None
+    conservation_status: Optional[str] = None
+    wingspan_cm: Optional[Decimal] = None
